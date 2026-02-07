@@ -1,4 +1,5 @@
 package dio.web_api.repository;
+import dio.web_api.handler.FieldRequiredException;
 import dio.web_api.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +9,27 @@ import java.util.List;
 @Repository
 public class UserRepository {
     public void save(User user){
+       /*
+       if(user.getLogin() == null ){
+            throw new BusinessException("The login field is required.\n");
+        }
+        if(user.getPassword() == null ){
+            throw new BusinessException("The password field is required.\n");
+        }
+        */
+
+        // Substitui a redundância acima, da seguinte forma:
+        // - criei a classe FieldRequired.java e ela herdou de BusinessException
+        // - no construtor passei a mensagem e aqui apenas indico o parâmetro de field.
+
+        if(user.getLogin() == null ){
+            throw new FieldRequiredException("login");
+        }
+        if(user.getPassword() == null ){
+            throw new FieldRequiredException("password");
+        }
+
+
         if (user.getId() == null){
             System.out.println("SAVE - Receiving the user at the repository layer.\n");
         } else {
